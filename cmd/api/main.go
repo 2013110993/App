@@ -66,7 +66,7 @@ func main() {
 	flag.IntVar(&cfg.limiter.burst, "limiter-burst", 20, "Rate limiter maximum burst")
 	flag.BoolVar(&cfg.limiter.enable, "limiter-enable", false, "Enable Rate Limiter")
 
-	// Flag for stmp server
+	// Flag for smtp server
 	flag.StringVar(&cfg.stmp.host, "smtp-host", "smtp.mailtrap.io", "STMP server host")
 	flag.IntVar(&cfg.stmp.port, "stmp-port", 2525, "SMTP server port")
 	flag.StringVar(&cfg.stmp.username, "smtp-username", os.Getenv("SMTP_USERNAME"), "SMTP server username")
