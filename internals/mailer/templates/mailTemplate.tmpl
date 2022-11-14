@@ -1,0 +1,42 @@
+
+
+{{/* Filename: internal/mailer/templates/user_welcome.tmpl */}}
+{{ define "subject" }} Welcome To Gobal University Forum!! {{ end }}
+{{ define "plainBody" }}
+Howdy, 
+
+Congratulations, you have succefully been register.
+ID: {{.userID}}
+
+{"token": "{{.activationToken}}"}
+
+Thanks,
+
+
+{{ end }}
+
+{{ define "htmlBody" }}
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+</head>
+
+<body>
+    <p>Hi,</p>
+    <p>Congratulations, you have succefully been register.</p>
+    <p>We are excited to have you on board!</p>
+    <p>ID: {{ .userID }}</p><br>
+
+    
+    <pre><code>
+        {"token": "{{.activationToken}}"}
+    </code></pre>
+
+    <p>Thanks, </p>
+
+</body>
+</html>
+{{ end }}
