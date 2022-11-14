@@ -69,8 +69,8 @@ func main() {
 	// Flag for stmp server
 	flag.StringVar(&cfg.stmp.host, "smtp-host", "smtp.mailtrap.io", "STMP server host")
 	flag.IntVar(&cfg.stmp.port, "stmp-port", 2525, "SMTP server port")
-	flag.StringVar(&cfg.stmp.username, "smtp-username", os.Getenv("STMP_USERNAME"), "SMTP server username")
-	flag.StringVar(&cfg.stmp.password, "smtp-password", os.Getenv("STMP_PASSWORD"), "SMTP server password")
+	flag.StringVar(&cfg.stmp.username, "smtp-username", os.Getenv("SMTP_USERNAME"), "SMTP server username")
+	flag.StringVar(&cfg.stmp.password, "smtp-password", os.Getenv("SMTP_PASSWORD"), "SMTP server password")
 	flag.StringVar(&cfg.stmp.sender, "smtp-sender", "FedericoRosadoService <no-reply@federicorosado.net>", "SMTP sender")
 
 	flag.Parse()
