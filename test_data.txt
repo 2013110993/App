@@ -1,11 +1,27 @@
-#Add User
+# Add User
 export BODY='{"name":"federico rosado", "email":"federico@ubstudents.ub.edu.bz", "password":"letmeintest"}' 
 curl -d "$BODY" localhost:4000/v1/users
 
-#Activate User
+# Activate User
 export BODY='{"token": "CIWMQAPE4HVFPJCFPKWMMGDRY4"}'
 curl -X PUT -d "$BODY" localhost:4000/v1/users/activate
 
 Generate Token
 export BODY='{"email":"federico@edu.bz", "password":"testpass"}'
 curl -i -d  "$BODY" localhost:4000/v1/tokens/authentication
+
+# Create Services
+export TOKEN='token here'
+export BODY='{"title":"Web Hosting", "description":"Host all website with linux or windows"}' 
+curl -X POST -H "Authorization: Bearer $TOKEN" -d  "$BODY" localhost:4000/v1/services
+
+# Filter 
+curl -H "Authorization: Bearer $TOKEN" "localhost:4000/v1/services?page_size=2&sort=title"
+curl -H "Authorization: Bearer $TOKEN" "localhost:4000/v1/services?page_size=2&sort=title&page=2"
+
+# Delete by id
+curl -X DELETE -H "Authorization: Bearer $TOKEN" localhost:4000/v1/services/id#
+
+#update Services
+export BODY='{"title":"Rack Space", "description":"To manage all services by owner"}'
+curl -X PATCH -H "Authorization: Bearer $TOKEN" -d "$BODY" localhost:4000/v1/services/3

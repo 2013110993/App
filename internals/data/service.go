@@ -37,7 +37,7 @@ func ValidateService(v *validator.Validator, service *Service) {
 // Insert() allows us  to create a new Service
 func (m ServiceModel) Insert(service *Service) error {
 	query := `
-		INSERT INTO forums (title, description)
+		INSERT INTO services (title, description)
 		VALUES ($1, $2)
 		RETURNING id, created_at, version
 	`
@@ -64,10 +64,10 @@ func (m ServiceModel) Get(id int64) (*Service, error) {
 	// Create the query
 	query := `
 		SELECT id, created_at, title, description, version
-		FROM forums
+		FROM services
 		WHERE id = $1
 	`
-	// Declare a Forum variable to hold the returned data
+	// Declare a Services variable to hold the returned data
 	var service Service
 	// Create a context
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -100,7 +100,7 @@ func (m ServiceModel) Get(id int64) (*Service, error) {
 func (m ServiceModel) Update(service *Service) error {
 	// Create the query
 	query := `
-		UPDATE forums
+		UPDATE services
 		SET title = $1, description = $2, version = version + 1
 		WHERE id = $3
 		AND version = $4
@@ -139,7 +139,7 @@ func (m ServiceModel) Delete(id int64) error {
 	}
 	// Create the delete query
 	query := `
-		DELETE FROM forums
+		DELETE FROM services
 		WHERE id = $1
 	`
 
@@ -172,7 +172,7 @@ func (m ServiceModel) GetAll(title string, filters Filters) ([]*Service, Metadat
 	query := fmt.Sprintf(`
 		SELECT COUNT(*) OVER(), id, created_at, title, description,
 		       version
-		FROM forums
+		FROM services
 		WHERE (to_tsvector('simple', title) @@ plainto_tsquery('simple', $1) OR $1 = '')
 		ORDER BY %s %s, id ASC
 		LIMIT $2 OFFSET $3`, filters.sortColumn(), filters.sortOrder())
