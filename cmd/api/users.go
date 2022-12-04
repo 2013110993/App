@@ -107,6 +107,7 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 	v := validator.New()
 	if data.ValidateTokenPlaintext(v, input.TokenPlaintext); !v.Valid() {
 		app.failedValidationResponse(w, r, v.Errors)
+		return
 	}
 
 	// Get the user details of the provided token or give the

@@ -36,6 +36,7 @@ func generateToken(userID int64, ttl time.Duration, scope string) (*Token, error
 		Scope:  scope,
 	}
 	// create a byte slice to hold random values and fill it with values
+	// from CSPRNG
 	randomBytes := make([]byte, 16)
 
 	_, err := rand.Read(randomBytes)

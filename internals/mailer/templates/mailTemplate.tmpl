@@ -1,7 +1,7 @@
 
 
 {{/* Filename: internal/mailer/templates/user_welcome.tmpl */}}
-{{ define "subject" }} Welcome To Gobal University Forum!! {{ end }}
+{{ define "subject" }} Welcome To RemindMe!! {{ end }}
 {{ define "plainBody" }}
 Howdy, 
 
@@ -9,6 +9,8 @@ Congratulations, you have succefully been register. Administrator will activate 
 ID: {{.userID}}
 
 {"token": "{{.activationToken}}"}
+
+Please send a request to the `PUT /v1/users/activate` endpoint
 
 Thanks,
 
@@ -29,6 +31,8 @@ Thanks,
     <p>Congratulations, you have succefully been register. Admin will activate your account shortly.p>
 
     <p>ID: {{ .userID }}</p><br>
+
+   <p> Please send a request to the `PUT /v1/users/activate` endpoint</p>
 
     
     <pre><code>
