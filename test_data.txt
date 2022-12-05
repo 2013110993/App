@@ -25,3 +25,79 @@ curl -X DELETE -H "Authorization: Bearer $TOKEN" localhost:4000/v1/services/id#
 #update Services
 export BODY='{"title":"Rack Space", "description":"To manage all services by owner"}'
 curl -X PATCH -H "Authorization: Bearer $TOKEN" -d "$BODY" localhost:4000/v1/services/3
+
+
+
+*******************************************************
+        Requirements
+*******************************************************
+# Add User --Panda (Read write)
+export BODY='{"name":"panda", "email":"panda@example.com", "password":"pandapanda"}' 
+curl -d "$BODY" localhost:4000/v1/users
+
+# Activate User
+export BODY='{"token": "FHYMCZUHIA6HO5COE6BHX6ETFU"}'
+curl -X PUT -d "$BODY" localhost:4000/v1/users/activate
+
+Generate Token
+export BODY='{"email":"panda@example.com", "password":"pandapanda"}'
+curl -i -d  "$BODY" localhost:4000/v1/tokens/authentication
+# "token": "PZRNAHAVUIGAQGMKEAHCNZ4T74"
+
+curl -H "Authorization: Bearer PZRNAHAVUIGAQGMKEAHCNZ4T74" localhost:4000/v1/services/1
+# Create Services
+export TOKEN='PZRNAHAVUIGAQGMKEAHCNZ4T74'
+export BODY='{"title":"Domain name", "description":"Domain Name from Cheapname"}' 
+curl -X POST -H "Authorization: Bearer $TOKEN" -d  "$BODY" localhost:4000/v1/services
+
+
+--Federico ( Read )
+
+# Add User --Federico
+export BODY='{"name":"Federico Rosado", "email":"federico.rosado@thinktech.com", "password":"federicofederico"}' 
+curl -d "$BODY" localhost:4000/v1/users
+
+# Activate User
+export BODY='{"token": "DWJQVMJM3267NEKQ3ETYNHL2QQ"}'
+curl -X PUT -d "$BODY" localhost:4000/v1/users/activate
+
+Generate Token
+export BODY='{"email":"federico.rosado@thinktech.com", "password":"federico"}'
+curl -i -d  "$BODY" localhost:4000/v1/tokens/authentication
+#"token": "ICYQNBFV76AIZ6QV5L47GWEFEA",
+
+
+curl -H "Authorization: Bearer ICYQNBFV76AIZ6QV5L47GWEFEA" localhost:4000/v1/services/1
+# Create Services
+export TOKEN='ICYQNBFV76AIZ6QV5L47GWEFEA'
+export BODY='{"title":"Read ONLY", "description":"Domain Name Read Only"}' 
+curl -X POST -H "Authorization: Bearer $TOKEN" -d  "$BODY" localhost:4000/v1/services
+
+*******************************************************
+        Testng Permissions
+*******************************************************
+1) Give all users read permission
+
+INSERT INTO users_permissions
+SELECT id, (SELECT id FROM permissions WHERE code = 'rm:read') FROM users;
+
+2) Give user panda write permission
+
+INSERT INTO users_permissions(user_id, permission_id)
+VALUES(
+    (SELECT id FROM users WHERE email = 'panda@example.com'),
+    (SELECT id FROM permissions WHERE code = 'rm:write')
+);
+
+3) List the activated users and their permissions
+
+SELECT email, array_agg(permissions.code) AS permissions
+FROM permissions
+INNER JOIN users_permissions
+ON users_permissions.permission_id = permissions.id
+INNER JOIN users
+ON users_permissions.user_id = users.id
+WHERE users.activated = true
+GROUP BY email;
+
+4) Test the endpoints to verify that the permissions work
