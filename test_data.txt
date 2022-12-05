@@ -101,3 +101,9 @@ WHERE users.activated = true
 GROUP BY email;
 
 4) Test the endpoints to verify that the permissions work
+SELECT email, code
+FROM users
+INNER JOIN users_permissions
+ON users.id = users_permissions.user_id
+INNER JOIN permissions
+ON users_permissions.permission_id = permissions.id;
