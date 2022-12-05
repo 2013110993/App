@@ -107,3 +107,17 @@ INNER JOIN users_permissions
 ON users.id = users_permissions.user_id
 INNER JOIN permissions
 ON users_permissions.permission_id = permissions.id;
+
+
+*******************************************************
+        CORS
+*******************************************************
+Server:
+go run ./cmd/api/ -cors-trusted-origins="http://localhost:9000 http://localhost:9090"
+
+App:
+go run ./cmd/demo/cors/basic
+go run ./cmd/demo/cors/basic --addr=":9090"  
+
+cors error
+go run ./cmd/demo/cors/basic --addr=":9001"  
