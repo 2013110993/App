@@ -101,7 +101,7 @@ func main() {
 	// log successful connection
 	logger.PrintInfo("database connection pool established", nil)
 
-	//create instances of out api
+	//create instances of our api
 	app := &application{
 		config: cfg,
 		logger: logger,

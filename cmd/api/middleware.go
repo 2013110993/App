@@ -91,7 +91,7 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 func (app *application) authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// add a "vary: Authorization" header to the response
-		// a note to the caches that the response may vary
+		// a not to the caches that the response may vary
 		w.Header().Add("Vary", "Authorization")
 		authorizationHeader := r.Header.Get("Authorization")
 		// if no authorizationHeader found then we create a new anonymous user
